@@ -15,4 +15,5 @@ Jetpack Compose Practice
    4. List & Animation
       1. remember : 메모리에 로컬 상태 저장
       2. mutableStateOf : 전달된 값의 변경사항을 추적
-2. Jetpack Compose Overview
+2. Jetpack Compose Overview 
+   1. Declarative UI
