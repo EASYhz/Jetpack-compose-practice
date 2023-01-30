@@ -94,14 +94,24 @@ fun MessageCard(msg: Message) {
         // surfaceColor will be updated gradually from one color to the other
         val surfaceColor by animateColorAsState(targetValue =
             if(isExpanded) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.surface,
+            else MaterialTheme.colorScheme.surface
+        )
+
+        var isClicked by remember { mutableStateOf(false) }
+
+        val textColor by animateColorAsState(targetValue =
+            if(isClicked) MaterialTheme.colorScheme.tertiary
+            else MaterialTheme.colorScheme.primary
         )
 
         // We toggle the isExpanded variable when we click on this Column
-        Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
+        Column(modifier = Modifier.clickable {
+            isExpanded = !isExpanded
+            isClicked = !isClicked
+        }) {
             Text(
                 text = msg.author,
-                color = MaterialTheme.colorScheme.primary,
+                color = textColor, //MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleMedium
             )
             // Add a vertical space between the author and message texts
@@ -110,13 +120,16 @@ fun MessageCard(msg: Message) {
             Surface(
                 tonalElevation = 1.dp,
                 color = surfaceColor,
-                modifier = Modifier.animateContentSize().padding(1.dp),
+                modifier = Modifier
+                    .animateContentSize()
+                    .padding(1.dp),
             ) {
                 Text(
                     text = msg.body,
                     modifier = Modifier.padding(all = 4.dp),
                     // If the message is expanded, we display all its content
                     // otherwise we only display the first line
+                    // 초기에 1줄만, 눌렀을 때 MAX
                     maxLines = if(isExpanded) Int.MAX_VALUE else 1,
                     style = MaterialTheme.typography.bodyMedium
                 )
